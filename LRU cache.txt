@@ -1,0 +1,50 @@
+#include<iostream>
+#include<list>
+#include<unordered_map>
+using namespace std;
+class LRU
+{
+    private:
+        list<int> q;
+        int capacity;
+        unordered_map<int,list<int>::iterator> m;
+    public:
+        LRU(int n)
+        {
+            capacity=n;
+        }
+        void task(int t)
+        {
+            if(m.find(t)==m.end())
+            {
+                if(q.size()==capacity)
+                {
+                    int temp=q.back();
+                    q.pop_back();
+                    m.erase(temp);
+                }
+            }
+            else
+                q.erase(m[t]);
+            q.push_front(t);
+            m[t]=q.begin();
+        }
+        void display()
+        {
+            for(auto it=q.begin();it!=q.end();it++)
+                cout<<*it<<" ";
+        }
+};
+int main()
+{
+    LRU ca(4); 
+    ca.task(1); 
+    ca.task(2); 
+    ca.task(3); 
+    ca.task(1); 
+    ca.task(4); 
+    ca.task(5); 
+    ca.display(); 
+  
+    return 0;
+}
